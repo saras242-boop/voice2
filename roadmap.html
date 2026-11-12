@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>خارطة طريق الوعي المالي</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;800&family=Reem+Kufi:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f2f4f8;--card:#ffffff;--ink:#14213d;--mute:#5d6b86;--line:#d5dbe6;
+  --c1:#6b4eff;--c2:#e09a00;--c3:#0a9396;--c4:#e63e6d;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1524;--card:#18203a;--ink:#eef1f8;--mute:#9aa6c2;--line:#2b3556;--c1:#8f7bff;--c2:#f5b830;--c3:#2ec4c7;--c4:#ff6b93}}
+:root[data-theme="dark"]{--bg:#0f1524;--card:#18203a;--ink:#eef1f8;--mute:#9aa6c2;--line:#2b3556;--c1:#8f7bff;--c2:#f5b830;--c3:#2ec4c7;--c4:#ff6b93}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Tajawal",system-ui,"Segoe UI",Tahoma,sans-serif;line-height:1.7}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+header{padding:56px 0 28px}
+h1{font-family:"Reem Kufi","Tajawal",serif;font-weight:600;font-size:clamp(2.2rem,8vw,3.8rem);line-height:1.15;margin:0 0 12px}
+header p{color:var(--mute);margin:0;max-width:34em;font-size:1.05rem}
+.prog{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:12px 0;border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:center}
+.prog .bar{flex:1;height:10px;border-radius:99px;background:var(--line);overflow:hidden}
+.prog .fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3),var(--c4));transition:width .5s}
+.prog b{font-weight:800;min-width:5.5em;text-align:start}
+.prog button{all:unset;cursor:pointer;color:var(--mute);font-size:.85rem;text-decoration:underline}
+.part{--c:var(--c1);margin-top:44px}
+.part[data-p="2"]{--c:var(--c2)}.part[data-p="3"]{--c:var(--c3)}.part[data-p="4"]{--c:var(--c4)}
+.line-name{display:inline-block;background:var(--c);color:#fff;font-weight:800;padding:6px 18px;border-radius:99px;font-size:.95rem}
+.part:nth-of-type(2) .line-name{color:#fff}
+.part[data-p="2"] .line-name{color:#1b1400}.part[data-p="3"] .line-name{color:#fff}
+h2{font-size:1.7rem;margin:12px 0 4px}
+.part>p{margin:0 0 18px;color:var(--mute)}
+.stations{list-style:none;margin:0;padding:0 34px 0 0;position:relative}
+.stations::before{content:"";position:absolute;right:11px;top:22px;bottom:22px;width:8px;border-radius:8px;background:var(--c)}
+.st{position:relative;margin:0 0 14px}
+.st::before{content:"";position:absolute;right:-34px;top:50%;width:30px;height:30px;transform:translateY(-50%);border-radius:50%;background:var(--bg);border:6px solid var(--c);z-index:1;transition:background .25s}
+.st.done::before{background:var(--c)}
+.st.done::after{content:"✓";position:absolute;right:-26px;top:50%;transform:translateY(-52%);color:#fff;font-weight:800;font-size:.9rem;z-index:2}
+.part[data-p="2"] .st.done::after{color:#1b1400}
+.st button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;width:100%;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;transition:transform .2s,border-color .2s}
+.st button:hover{border-color:var(--c);transform:translateX(-4px)}
+.st button:focus-visible,.prog button:focus-visible,.modal button:focus-visible,.modal a:focus-visible{outline:3px solid var(--c,var(--c1));outline-offset:3px}
+.st .t{flex:1;font-weight:800}.st .t small{display:block;font-weight:400;color:var(--mute)}
+.st .play{width:38px;height:38px;border-radius:50%;background:var(--c);display:grid;place-items:center;flex:none}
+.st .play::after{content:"";border-inline-start:12px solid #fff;border-block:7px solid transparent;margin-inline-end:-3px;transform:scaleX(-1)}
+.part[data-p="2"] .play::after{border-inline-start-color:#1b1400}
+.xfer{display:flex;align-items:center;gap:10px;margin:34px 34px 0 0;color:var(--mute);font-size:.9rem}
+.xfer::before{content:"";width:22px;height:22px;border-radius:50%;border:4px solid var(--ink);background:var(--bg);margin-right:-34px;margin-inline-start:12px;flex:none}
+.end{margin-top:40px;text-align:center;padding:28px;border:2px dashed var(--line);border-radius:18px;color:var(--mute)}
+.end strong{display:block;color:var(--ink);font-size:1.3rem}
+.modal{position:fixed;inset:0;background:rgba(8,12,24,.82);display:none;align-items:center;justify-content:center;padding:16px;z-index:20}
+.modal.open{display:flex}
+.box{width:min(900px,100%);background:var(--card);border-radius:18px;overflow:hidden;animation:pop .22s ease-out}
+@keyframes pop{from{transform:scale(.94);opacity:0}to{transform:none;opacity:1}}
+.box .top{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;gap:10px}
+.box .top strong{font-size:1rem}
+.box .top button{all:unset;cursor:pointer;font-size:1.6rem;line-height:1;padding:4px 10px;color:var(--mute)}
+.frame{aspect-ratio:16/9;background:#000}
+.frame iframe{width:100%;height:100%;border:0;display:block}
+.box .foot{display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:space-between;align-items:center;padding:12px 18px}
+.box .foot a{color:var(--ink);font-weight:800}
+.mark{all:unset;cursor:pointer;background:var(--ink);color:var(--bg);padding:8px 18px;border-radius:99px;font-weight:800}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>خارطة طريق الوعي المالي</h1>
+    <p>أربع خطوط، كل خط كتاب أو نظام. ابدأ من المحطة الأولى، شاهد الحلقة، وعلّم عليها لتتابع تقدمك.</p>
+  </header>
+  <div class="prog" aria-live="polite">
+    <b id="count">٠ / ١٤</b>
+    <div class="bar"><div class="fill" id="fill"></div></div>
+    <button id="reset" type="button">إعادة التعيين</button>
+  </div>
+  <main id="map"></main>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mtitle">
+  <div class="box">
+    <div class="top"><strong id="mtitle"></strong><button id="close" type="button" aria-label="إغلاق">×</button></div>
+    <div class="frame" id="frame"></div>
+    <div class="foot">
+      <a id="yt" href="#" target="_blank" rel="noopener">إذا لم يعمل الفيديو، افتحه على يوتيوب</a>
+      <button class="mark" id="mark" type="button"></button>
+    </div>
+  </div>
+</div>
+
+<script>
+const PARTS=[
+ {p:1,line:"الخط الأول",title:"الأب الغني والأب الفقير",desc:"كيف يفكر الأغنياء بالمال، وكيف تبني عقلية تصنع الأصول.",
+  v:[["aI4PkxmYtxs","الحلقة ١"],["gyaBgNRpMak","الحلقة ٢"],["VYfSnCzLnkQ","الحلقة ٣"],["d5xzD3jVP3w","الحلقة ٤"],["yTHG7lf_UbA","الحلقة ٥"],["IvVZXBfnpRM","الحلقة ٦"]]},
+ {p:2,line:"الخط الثاني",title:"أغنى رجل في بابل",desc:"قوانين الادخار والثروة، في فيديو واحد كامل.",
+  v:[["XzBBRj41DVE","الفيديو الكامل"]]},
+ {p:3,line:"الخط الثالث",title:"فن اللامبالاة",desc:"اختر ما يستحق اهتمامك، وتخلَّ عن الباقي.",
+  v:[["yJFjFu1h128","الفيديو ١"],["Q8YNIEpmmFQ","الفيديو ٢"],["PHwqm1uSLVM","الفيديو ٣"],["bW7dmRA3o3o","الفيديو ٤"],["a43enl07dU4","الفيديو ٥"],["y0EjJDu9H00","الفيديو ٦"]]},
+ {p:4,line:"الخط الرابع",title:"أفضل نظام لإدارة المال",desc:"طبّق ما تعلمته في نظام عملي لمصروفك ودخلك.",
+  v:[["loGAyJTbu88","شرح النظام"]]}
+];
+const KEY="roadmap-done-v1";
+let done={};
+try{done=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){done={}}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}};
+const nf=new Intl.NumberFormat("ar-EG");
+const total=PARTS.reduce((n,x)=>n+x.v.length,0);
+const map=document.getElementById("map");
+let cur=null,lastBtn=null;
+
+PARTS.forEach((x,i)=>{
+  const s=document.createElement("section");
+  s.className="part";s.dataset.p=x.p;
+  s.innerHTML=`<span class="line-name">${x.line}</span><h2>${x.title}</h2><p>${x.desc}</p>`;
+  const ol=document.createElement("ol");ol.className="stations";
+  x.v.forEach(([id,name])=>{
+    const li=document.createElement("li");li.className="st"+(done[id]?" done":"");li.dataset.id=id;
+    li.innerHTML=`<button type="button"><span class="t">${name}<small>${x.title}</small></span><span class="play"></span></button>`;
+    li.querySelector("button").onclick=e=>open(id,`${x.title} — ${name}`,e.currentTarget);
+    ol.appendChild(li);
+  });
+  s.appendChild(ol);
+  if(i<PARTS.length-1){const t=document.createElement("div");t.className="xfer";t.textContent="محطة تبديل: انتقل إلى "+PARTS[i+1].title;s.appendChild(t)}
+  map.appendChild(s);
+});
+const end=document.createElement("div");end.className="end";
+end.innerHTML="<strong>نهاية الخارطة</strong>أكملت الخطوط الأربعة؟ ابدأ التطبيق اليوم.";map.appendChild(end);
+
+function update(){
+  const n=Object.keys(done).filter(k=>done[k]).length;
+  document.getElementById("count").textContent=nf.format(n)+" / "+nf.format(total);
+  document.getElementById("fill").style.width=(n/total*100)+"%";
+  document.querySelectorAll(".st").forEach(li=>li.classList.toggle("done",!!done[li.dataset.id]));
+  if(cur)document.getElementById("mark").textContent=done[cur]?"إلغاء التعليم":"علّمت أنني شاهدته";
+}
+const modal=document.getElementById("modal"),frame=document.getElementById("frame");
+function open(id,title,btn){
+  cur=id;lastBtn=btn;
+  document.getElementById("mtitle").textContent=title;
+  frame.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${id}?rel=0" title="${title}" allow="accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+  document.getElementById("yt").href="https://www.youtube.com/watch?v="+id;
+  modal.classList.add("open");update();
+  document.getElementById("close").focus();
+}
+function close(){modal.classList.remove("open");frame.innerHTML="";cur=null;if(lastBtn)lastBtn.focus()}
+document.getElementById("close").onclick=close;
+modal.addEventListener("click",e=>{if(e.target===modal)close()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&modal.classList.contains("open"))close()});
+document.getElementById("mark").onclick=()=>{done[cur]=!done[cur];save();update()};
+document.getElementById("reset").onclick=()=>{if(confirm("مسح كل علامات المشاهدة؟")){done={};save();update()}};
+update();
+</script>
+</body>
+</html>
